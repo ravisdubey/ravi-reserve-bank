@@ -1,0 +1,35 @@
+server.port=8084
+logging.level.root=INFO
+logging.level.org.springframework.cloud.gateway.route.RouteDefinitionRouteLocator=INFO
+eureka.client.serviceUrl.defaultZone=http://localhost:8761/eureka
+management.tracing.sampling.probability=1
+
+#Account-API route
+spring.cloud.gateway.routes[0].id=account-api
+spring.cloud.gateway.routes[0].uri=http://localhost:9090/api/account
+spring.cloud.gateway.routes[0].predicates[0]=Path=/api/account
+
+#Transaction-API route
+spring.cloud.gateway.routes[1].id=transaction-api
+spring.cloud.gateway.routes[1].uri=http://localhost:4000/api/transaction
+spring.cloud.gateway.routes[1].predicates[0]=Path=/api/transaction
+
+#Discovery-Server route
+spring.cloud.gateway.routes[2].id=discovery-server
+spring.cloud.gateway.routes[2].uri=http://localhost:8761
+spring.cloud.gateway.routes[2].predicates[0]=Path=/discovery-server
+spring.cloud.gateway.routes[2].filters[0]=SetPath=/
+
+## Config Server Route
+spring.cloud.gateway.routes[3].id=config-server
+spring.cloud.gateway.routes[3].uri=http://localhost:8888
+spring.cloud.gateway.routes[3].predicates[0]=Path=/config-server/**
+
+spring.cloud.gateway.routes[4].id=api-gateway
+spring.cloud.gateway.routes[4].uri=http://localhost:8084
+spring.cloud.gateway.routes[4].predicates[0]=Path=/
+
+## Asset-Management-API Route
+spring.cloud.gateway.routes[5].id=asset-management-api
+spring.cloud.gateway.routes[5].uri=lb://asset-management-api
+spring.cloud.gateway.routes[5].predicates[0]=Path=/api/asset-management
